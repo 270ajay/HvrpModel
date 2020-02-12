@@ -1,0 +1,26 @@
+INFO: 2020-02-12 14:39:56,978 12212 
+------------------------
+INFO: 2020-02-12 14:39:56,978 12212 getting input data
+INFO: 2020-02-12 14:39:57,014 12212 stored input data into objects
+INFO: 2020-02-12 14:39:57,014 12212 building Optimization Model
+INFO: 2020-02-12 14:39:57,016 12212 minimizing travel times
+INFO: 2020-02-12 14:39:57,016 12212 minimizing number of vehicles used
+INFO: 2020-02-12 14:39:57,016 12212 added waiting time and max time constraint
+INFO: 2020-02-12 14:39:57,016 12212 added start time constraints
+INFO: 2020-02-12 14:39:57,016 12212 added time window constraints
+INFO: 2020-02-12 14:39:57,018 12212 added max working hours constraints
+INFO: 2020-02-12 14:39:57,018 12212 added capacity constraints
+INFO: 2020-02-12 14:39:57,018 12212 added costs for not visiting nodes
+INFO: 2020-02-12 14:39:57,025 12212 updated search parameters for optimization
+INFO: 2020-02-12 14:39:57,025 12212 optimizing...
+INFO: 2020-02-12 14:39:59,024 12212 optimization done
+
+INFO: 2020-02-12 14:39:59,025 12212 Vehicle: Vehicle001 is used
+INFO: 2020-02-12 14:39:59,025 12212 Vehicle: Vehicle002 is used
+INFO: 2020-02-12 14:39:59,025 12212 Vehicle: Vehicle003 is used
+INFO: 2020-02-12 14:39:59,025 12212 Vehicle: Vehicle004 is used
+INFO: 2020-02-12 14:39:59,025 12212 Total number of vehicles used: 4
+INFO: 2020-02-12 14:39:59,027 12212 Output csv file is written
+INFO: 2020-02-12 14:39:59,028 12212 
+----------------------------------------------
+

@@ -1,0 +1,26 @@
+Optimizer Output,TotalVehiclesUsed:,4
+""
+""
+Vehicle,Order,Location,OriginalTravelTime,TravelTime,ArriveAt,ArriveAtLatest,OriginalServiceTime,ServiceTime,LeaveAt,LeaveAtLatest,Demand,Capacity,PreviousLocation
+Vehicle001,Order006,location5,70,70.0,18:00:00,18:00:00,100,100,19:40:00,19:40:00,900,4000,location0
+Vehicle001,Order005,location4,15,15.0,19:55:00,19:55:00,70,70,21:05:00,21:05:00,3000,4000,location5
+Vehicle001,,location0,65,65.0,22:10:00,22:10:00,0,0,22:10:00,22:10:00,0,4000,location4
+""
+""
+Vehicle,Order,Location,OriginalTravelTime,TravelTime,ArriveAt,ArriveAtLatest,OriginalServiceTime,ServiceTime,LeaveAt,LeaveAtLatest,Demand,Capacity,PreviousLocation
+Vehicle002,Order002,location1,30,33.0,14:00:00,14:00:00,60,67,15:07:00,15:07:00,1700,4000,location0
+Vehicle002,Order001,location1,0,0.0,15:07:00,15:07:00,50,56,16:03:00,16:03:00,2000,4000,location1
+Vehicle002,,location0,35,39.0,16:42:00,16:42:00,0,0,16:42:00,16:42:00,0,4000,location1
+""
+""
+Vehicle,Order,Location,OriginalTravelTime,TravelTime,ArriveAt,ArriveAtLatest,OriginalServiceTime,ServiceTime,LeaveAt,LeaveAtLatest,Demand,Capacity,PreviousLocation
+Vehicle003,Order004,location3,50,42.0,12:27:00,12:27:00,90,60,13:27:00,13:27:00,2000,4000,location0
+Vehicle003,Order009,location7,40,33.0,14:00:00,14:00:00,30,20,14:20:00,14:20:00,1600,4000,location3
+Vehicle003,,location0,95,79.0,15:39:00,15:39:00,0,0,15:39:00,15:39:00,0,4000,location7
+""
+""
+Vehicle,Order,Location,OriginalTravelTime,TravelTime,ArriveAt,ArriveAtLatest,OriginalServiceTime,ServiceTime,LeaveAt,LeaveAtLatest,Demand,Capacity,PreviousLocation
+Vehicle004,Order007,location6,80,53.0,14:00:00,14:00:00,60,30,14:30:00,14:30:00,1300,4000,location0
+Vehicle004,Order008,location7,10,7.0,14:37:00,16:58:00,50,25,15:02:00,17:23:00,1400,4000,location6
+Vehicle004,Order003,location2,55,37.0,18:00:00,18:00:00,80,40,18:40:00,18:40:00,1200,4000,location7
+Vehicle004,,location0,45,30.0,19:10:00,19:10:00,0,0,19:10:00,19:10:00,0,4000,location2
