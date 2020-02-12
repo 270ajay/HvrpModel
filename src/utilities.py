@@ -6,13 +6,11 @@ CAPACITY_DIMENSION = "CAPACITY_DIMENSION"
 
 
 
-def getTravelTimeFunction(manager, data, speedFactor):
+def getTravelTimeFunction(data, speedFactor):
     """Returns the travel time between the two nodes."""
     # Convert from routing variable Index to time matrix NodeIndex.
 
-    def travelTimeCallback(fromIndex, toIndex):
-        fromNode = manager.IndexToNode(fromIndex)
-        toNode = manager.IndexToNode(toIndex)
+    def travelTimeCallback(fromNode, toNode):
         fromLoc = data['orderDetails']['locationList'][fromNode]
         toLoc = data['orderDetails']['locationList'][toNode]
         return round(data['timeMatrix'][fromLoc][toLoc]/speedFactor)
@@ -22,13 +20,11 @@ def getTravelTimeFunction(manager, data, speedFactor):
 
 
 
-def getServiceTimeFunction(manager, data, speedFactor, serviceTimeFactor):
+def getServiceTimeFunction(data, speedFactor, serviceTimeFactor):
     """Returns the travel + service time between the two nodes."""
     # Convert from routing variable Index to time matrix NodeIndex.
 
-    def serviceTimeCallback(fromIndex, toIndex):
-        fromNode = manager.IndexToNode(fromIndex)
-        toNode = manager.IndexToNode(toIndex)
+    def serviceTimeCallback(fromNode, toNode):
         fromLoc = data['orderDetails']['locationList'][fromNode]
         toLoc = data['orderDetails']['locationList'][toNode]
         return round(data['timeMatrix'][fromLoc][toLoc]/speedFactor) + round(data['orderDetails']['serviceTime'][fromNode]/serviceTimeFactor)
@@ -37,41 +33,40 @@ def getServiceTimeFunction(manager, data, speedFactor, serviceTimeFactor):
 
 
 
-def getDemandFunction(manager, routing, data):
+def getDemandFunction(data):
     """Returns the demand of the node."""
     # Convert from routing variable Index to demands NodeIndex.
 
-    def demandCallBack(fromIndex):
-        from_node = manager.IndexToNode(fromIndex)
-        return data['orderDetails']['demandList'][from_node]
+    def demandCallBack(fromNode, toNode):
+        return data['orderDetails']['demandList'][fromNode]
 
-    return routing.RegisterUnaryTransitCallback(demandCallBack)
-
+    return demandCallBack
 
 
 
 
-def getTravelTimeFunctionsList(data, routing, manager):
+
+def getTravelTimeFunctionsList(data):
 
     transitCallBackIndices = []
 
     for vehicleId in range(data['vehicleDetails']['numOfVehicles']):
         speedFactor = data['vehicleDetails']['speedFactorList'][vehicleId]
-        transitCallBackIndices.append(routing.RegisterTransitCallback(getTravelTimeFunction(manager, data, speedFactor)))
+        transitCallBackIndices.append(getTravelTimeFunction(data, speedFactor))
 
     return transitCallBackIndices
 
 
 
 
-def getServiceTimeFunctionsList(data, routing, manager):
+def getServiceTimeFunctionsList(data):
 
     serviceCallBackIndices = []
 
     for vehicleId in range(data['vehicleDetails']['numOfVehicles']):
         speedFactor = data['vehicleDetails']['speedFactorList'][vehicleId]
         serviceTimeFactor = data['vehicleDetails']['serviceTimeFactorList'][vehicleId]
-        serviceCallBackIndices.append(routing.RegisterTransitCallback(getServiceTimeFunction(manager, data, speedFactor, serviceTimeFactor)))
+        serviceCallBackIndices.append(getServiceTimeFunction(data, speedFactor, serviceTimeFactor))
 
     return serviceCallBackIndices
 
@@ -92,7 +87,7 @@ def getNumberOfVehiclesUsed(data, routing, assignment):
 
 
 
-def printOutputToCsv(data, manager, routing, assignment, timeDimension):
+def printOutputToCsv(data, routing, assignment, timeDimension):
 
     numOfVehiclesUsed = getNumberOfVehiclesUsed(data, routing, assignment)
     with open("../output/OptimizerOutput.csv", "w", newline='') as file:
@@ -111,8 +106,8 @@ def printOutputToCsv(data, manager, routing, assignment, timeDimension):
                 index = routing.Start(vehicleId)
                 while not routing.IsEnd(index):
 
-                    node_index = manager.IndexToNode(index)
-                    next_node_index = manager.IndexToNode(assignment.Value(routing.NextVar(index)))
+                    node_index = routing.IndexToNode(index)
+                    next_node_index = routing.IndexToNode(assignment.Value(routing.NextVar(index)))
                     timeVar = timeDimension.CumulVar(assignment.Value(routing.NextVar(index)))
                     timeMin = assignment.Min(timeVar)
                     timeMax = assignment.Max(timeVar)

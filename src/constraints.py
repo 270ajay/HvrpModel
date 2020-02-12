@@ -27,10 +27,10 @@ def createCtForWaitingAndMaxTime(data, routing, serviceCallBackIndices):
 
 
 
-def createCtForTimeWindows(data, routing, manager, timeDimension):
+def createCtForTimeWindows(data, routing, timeDimension):
 
     for locationIndex in range(data['orderDetails']['numOfNodes']):
-        index = manager.NodeToIndex(locationIndex)
+        index = routing.NodeToIndex(locationIndex)
         if (routing.IsStart(index)) or (routing.IsEnd(index)):
             continue
         timeDimension.CumulVar(index).SetRange(data['orderDetails']['minEntryTimeList'][locationIndex], data['orderDetails']['maxEntryTimeList'][locationIndex])
@@ -69,9 +69,9 @@ def createCtForCapacity(data, routing, demandCallBackIndex):
 
 
 
-def addCostForNodes(data, routing, manager):
+def addCostForNodes(data, routing):
     for node in range(data['orderDetails']['numOfNodes']):
-        routing.AddDisjunction([manager.NodeToIndex(node)], data['orderDetails']['costOfNotServingList'][node])
+        routing.AddDisjunction([node], data['orderDetails']['costOfNotServingList'][node])
 
     logging.info("added costs for not visiting nodes")
 
@@ -89,7 +89,7 @@ def minimizeNumberOfVehicles(data, routing):
 
 def updateSearchParameters(data, searchParameters):
     searchParameters.local_search_metaheuristic = routing_enums_pb2.LocalSearchMetaheuristic.GUIDED_LOCAL_SEARCH
-    searchParameters.time_limit.seconds = data['modelParams']['solverTimeLimit']
+    searchParameters.time_limit_ms = data['modelParams']['solverTimeLimit'] * 1000
     searchParameters.first_solution_strategy = routing_enums_pb2.FirstSolutionStrategy.PARALLEL_CHEAPEST_INSERTION
 
     if data['modelParams']['displaySolverSearch']:

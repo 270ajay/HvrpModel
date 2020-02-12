@@ -6,29 +6,28 @@ def buildAndSolveOptimizationModel(data):
 
     logging.info("building Optimization Model")
 
-    manager = pywrapcp.RoutingIndexManager(data['orderDetails']['numOfNodes'],
-                                           data['vehicleDetails']['numOfVehicles'],
-                                           data['vehicleDetails']['startDepotIndices'],
-                                           data['vehicleDetails']['endDepotIndices'])
-    routing = pywrapcp.RoutingModel(manager)
+    routing = pywrapcp.RoutingModel(data['orderDetails']['numOfNodes'],
+                                    data['vehicleDetails']['numOfVehicles'],
+                                    data['vehicleDetails']['startDepotIndices'],
+                                    data['vehicleDetails']['endDepotIndices'])
 
 
-    demandCallBackIndex = utilities.getDemandFunction(manager, routing,  data)
-    transitCallBackIndices = utilities.getTravelTimeFunctionsList(data, routing, manager)
-    serviceCallBackIndices = utilities.getServiceTimeFunctionsList(data, routing, manager)
+    demandCallBackIndex = utilities.getDemandFunction(data)
+    transitCallBackIndices = utilities.getTravelTimeFunctionsList(data)
+    serviceCallBackIndices = utilities.getServiceTimeFunctionsList(data)
 
 
     constraints.minimizeTransit(data, routing, transitCallBackIndices)
     constraints.minimizeNumberOfVehicles(data, routing)
     timeDimension = constraints.createCtForWaitingAndMaxTime(data, routing, serviceCallBackIndices)
     constraints.createCtForStartTime(data, routing, timeDimension)
-    constraints.createCtForTimeWindows(data, routing, manager, timeDimension)
+    constraints.createCtForTimeWindows(data, routing, timeDimension)
     constraints.createCtForMaxWorkingHours(data, routing, timeDimension)
     constraints.createCtForCapacity(data, routing, demandCallBackIndex)
-    constraints.addCostForNodes(data, routing, manager)
+    constraints.addCostForNodes(data, routing)
 
 
-    searchParameters = pywrapcp.DefaultRoutingSearchParameters()
+    searchParameters = pywrapcp.RoutingModel.DefaultSearchParameters()
     searchParameters = constraints.updateSearchParameters(data, searchParameters)
 
 
@@ -38,4 +37,4 @@ def buildAndSolveOptimizationModel(data):
     logging.info("optimization done\n")
 
     if assignment:
-        utilities.printOutputToCsv(data, manager, routing, assignment, timeDimension)
+        utilities.printOutputToCsv(data, routing, assignment, timeDimension)
